@@ -1,0 +1,1 @@
+pyuic4 -x AboutWindow.ui > __init__.py

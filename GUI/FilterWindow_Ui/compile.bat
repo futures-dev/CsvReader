@@ -1,0 +1,1 @@
+pyuic4 -x FilterWindow.ui > __init__.py
