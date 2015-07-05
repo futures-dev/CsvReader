@@ -19,8 +19,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>203</x>
-     <y>30</y>
+     <x>200</x>
+     <y>25</y>
      <width>181</width>
      <height>20</height>
     </rect>
@@ -39,8 +39,8 @@
   <widget class="QLabel" name="separatorLabel">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>30</y>
+     <x>10</x>
+     <y>26</y>
      <width>181</width>
      <height>16</height>
     </rect>
@@ -80,6 +80,48 @@
    <property name="text">
     <string>Отмена</string>
    </property>
+  </widget>
+  <widget class="QLabel" name="encodingLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>77</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS Shell Dlg 2</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Кодировка</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="encodingBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>75</y>
+     <width>181</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>win-1251</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>utf-8</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

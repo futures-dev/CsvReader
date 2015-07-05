@@ -34,6 +34,7 @@
      <string>Файл</string>
     </property>
     <addaction name="openButton"/>
+    <addaction name="saveAsButton"/>
     <addaction name="settingsButton"/>
     <addaction name="exitButton"/>
    </widget>
@@ -77,6 +78,16 @@
   <action name="filterButton">
    <property name="text">
     <string>Фильтр</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Выбрать столбцы</string>
+   </property>
+  </action>
+  <action name="saveAsButton">
+   <property name="text">
+    <string>Сохранить как...</string>
    </property>
   </action>
  </widget>

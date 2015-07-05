@@ -2,4 +2,5 @@
 __author__ = 'Kolomiets'
 
 class Settings(object):
-    Separator=0
+    Separator=1
+    Encoding=0

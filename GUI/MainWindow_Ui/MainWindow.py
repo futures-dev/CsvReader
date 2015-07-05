@@ -59,30 +59,32 @@ class MainWindow(QtGui.QMainWindow):
         self.windows.append(settings_window_show())
 
     def filter_window_show(self):
-        self.windows.append(filter_window_show())
+        self.windows.append(filter_window_show(self))
+
+    def filter_model(self,columns,predicates):
+        v = self.original.filter_rows(columns,predicates)
+        self.filtered = TableModel(v[0],v[1])
+        self.model = self.filtered
+        self.ui.tableView.setModel(self.model)
+        self.ui.tableView.show()
 
     def open_file_dialog(self):
         fileName = unicode(QtGui.QFileDialog.getOpenFileName(self,u'Открыть файл')).encode('utf-8')
         if fileName[-4:]=='.csv':
             self.model = TableModel()
             self.model.gui = self.ui
-            self.model.open(fileName,',' if Settings.Separator==0 else ';')
+            self.model.open(fileName,',' if Settings.Separator==0 else ';', 'windows-1251' if Settings.Encoding==0 else 'utf-8')
+            QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName('windows-1251' if Settings.Encoding==0 else 'utf-8'))
             self.ui.tableView.setModel(self.model)
-            #phonebook = {"Олег": "Красноярск",
-            #     "Вася": "Воронеж",
-            #     "Петя": "Москва"}
-            #model =QtGui.QStandardItemModel(3,2)
-            #row = 0
-            #for name, address in phonebook.items():
-            # model.setData(model.index(row, 0), name)
-            #model.setData(model.index(row, 1), address)
-            #row += 1
-            #model.setHeaderData(0, QtCore.Qt.Horizontal, "Имя")
-            #model.setHeaderData(1, QtCore.Qt.Horizontal, "Адрес")
-
-            self.ui.tableView.setModel(self.model)
+            self.original = self.model
             self.ui.tableView.show()
+        else:
+            QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
+    def save_file_dialog(self):
+        fileName = unicode(QtGui.QFileDialog.getSaveFileName(self,u'Сохранить как')).encode('utf-8')
+        if fileName[-4:]=='.csv':
+            self.model.save_as(fileName,'windows-1251' if Settings.Encoding==0 else 'utf-8')
         else:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
@@ -94,6 +96,7 @@ class MainWindow(QtGui.QMainWindow):
         QtCore.QObject.connect(ui.settingsButton, QtCore.SIGNAL('triggered()'),self.settings_window_show)
         QtCore.QObject.connect(ui.filterButton, QtCore.SIGNAL('triggered()'),self.filter_window_show)
         QtCore.QObject.connect(ui.openButton, QtCore.SIGNAL('triggered()'),self.open_file_dialog)
+        QtCore.QObject.connect(ui.saveAsButton, QtCore.SIGNAL('triggered()'),self.save_file_dialog)
 
         self.ui = ui
 
