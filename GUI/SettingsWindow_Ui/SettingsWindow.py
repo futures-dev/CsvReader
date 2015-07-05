@@ -12,6 +12,7 @@ def settings_window_show():
 class SettingsWindow(QtGui.QWidget):
     def save(self):
         Settings.Separator = self.ui.separatorBox.currentIndex()
+        Settings.Encoding = self.ui.encodingBox.currentIndex()
         self.close()
 
 
@@ -22,5 +23,6 @@ class SettingsWindow(QtGui.QWidget):
         QtCore.QObject.connect(ui.saveButton, QtCore.SIGNAL('clicked()'),self.save)
         QtCore.QObject.connect(ui.exitButton, QtCore.SIGNAL('clicked()'),self.close)
         ui.separatorBox.setCurrentIndex(Settings.Separator)
+        ui.encodingBox.setCurrentIndex(Settings.Encoding)
 
         self.ui = ui

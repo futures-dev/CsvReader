@@ -57,7 +57,12 @@ class Ui_MainWindow(object):
         self.aboutButton.setObjectName(_fromUtf8("aboutButton"))
         self.filterButton = QtGui.QAction(MainWindow)
         self.filterButton.setObjectName(_fromUtf8("filterButton"))
+        self.action = QtGui.QAction(MainWindow)
+        self.action.setObjectName(_fromUtf8("action"))
+        self.saveAsButton = QtGui.QAction(MainWindow)
+        self.saveAsButton.setObjectName(_fromUtf8("saveAsButton"))
         self.fileMenu.addAction(self.openButton)
+        self.fileMenu.addAction(self.saveAsButton)
         self.fileMenu.addAction(self.settingsButton)
         self.fileMenu.addAction(self.exitButton)
         self.helpMenu.addAction(self.aboutButton)
@@ -65,6 +70,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.fileMenu.menuAction())
         self.menubar.addAction(self.actionMenu.menuAction())
         self.menubar.addAction(self.helpMenu.menuAction())
+
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.exitButton, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -79,6 +85,8 @@ class Ui_MainWindow(object):
         self.exitButton.setText(_translate("MainWindow", "Выход", None))
         self.aboutButton.setText(_translate("MainWindow", "О программе", None))
         self.filterButton.setText(_translate("MainWindow", "Фильтр", None))
+        self.action.setText(_translate("MainWindow", "Выбрать столбцы", None))
+        self.saveAsButton.setText(_translate("MainWindow", "Сохранить как...", None))
 
 
 if __name__ == "__main__":
