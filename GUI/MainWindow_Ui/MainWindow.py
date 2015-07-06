@@ -114,6 +114,9 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self,ui):
         super(MainWindow,self).__init__()
         ui.setupUi(self)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
         self.windows = list()
         QtCore.QObject.connect(ui.aboutButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.about_window_show)
         QtCore.QObject.connect(ui.settingsButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.settings_window_show)
