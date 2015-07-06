@@ -101,14 +101,14 @@ class MainWindow(QtGui.QMainWindow):
             self.original = self.model
             self.ui.tableView.resizeColumnsToContents()
             self.ui.tableView.show()
-        else:
+        elif len(fileName)>0:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
     def save_file_dialog(self):
         fileName = unicode(QtGui.QFileDialog.getSaveFileName(self,u'Сохранить как'))
         if fileName[-4:]=='.csv':
             self.model.save_as(fileName,Settings.Encoding(),Settings.NewLine(),Settings.Headers())
-        else:
+        elif len(fileName)>0:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
     def __init__(self,ui):
