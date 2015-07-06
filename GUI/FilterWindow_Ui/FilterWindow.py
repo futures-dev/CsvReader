@@ -4,10 +4,18 @@ __author__ = 'Kolomiets'
 from PyQt4 import QtGui,QtCore
 from GUI.FilterWindow_Ui import Ui_FilterWindow,_fromUtf8,_translate
 
+def static_fw():
+    def decorate(func):
+        setattr(func,'fw',1)
+        return func
+    return decorate
+
+@static_fw()
 def filter_window_show(main):
-    fw = FilterWindow(Ui_FilterWindow(),main)
-    fw.show()
-    return fw
+    if (filter_window_show.fw==1):
+        filter_window_show.fw = FilterWindow(Ui_FilterWindow(),main)
+    filter_window_show.fw.show()
+    return filter_window_show.fw
 
 class FilterWindow(QtGui.QWidget):
 
@@ -55,6 +63,9 @@ class FilterWindow(QtGui.QWidget):
 
     def __init__(self,ui,main):
         super(FilterWindow,self).__init__()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
         ui.setupUi(self)
         ui.comboBox = {}
         ui.groupBox = {}

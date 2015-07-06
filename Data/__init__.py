@@ -3,8 +3,9 @@ __author__ = 'Kolomiets'
 
 class Settings(object):
     separator=1
-    encoding=0
+    encoding=1
     headers=1
+    rows=0
 
     @staticmethod
     def Encoding():
@@ -51,6 +52,15 @@ class Settings(object):
         if Settings.headers==0:
             return False
         elif Settings.headers==1:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def Rows():
+        if Settings.rows==0:
+            return False
+        elif Settings.rows==1:
             return True
         else:
             return False

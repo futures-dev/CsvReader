@@ -48,7 +48,7 @@ class TableModel(QtCore.QAbstractTableModel,CsvReader.CsvReader):
         if int_role==QtCore.Qt.DisplayRole:
             if Qt_Orientation==QtCore.Qt.Horizontal:
                 return QtCore.QVariant(self.header[p_int])
-            elif Qt_Orientation==QtCore.Qt.Vertical:
+            elif Qt_Orientation==QtCore.Qt.Vertical and Settings.Rows():
                 return QtCore.QVariant(p_int+1)
             else:
                 return QtCore.QVariant()
@@ -64,7 +64,14 @@ class TableModel(QtCore.QAbstractTableModel,CsvReader.CsvReader):
 
     def sort(self,colN,order):
         self.emit(QtCore.SIGNAL(_fromUtf8("layoutAboutToBeChanged()")))
-        self.rows.sort(key=lambda x:x[colN])
+        ints = True
+        for line in self.rows:
+            try:
+                int(line[colN])
+            except:
+                ints=False
+                break
+        self.rows.sort(key=lambda x:int(x[colN]) if ints else x[colN])
         if order==QtCore.Qt.DescendingOrder:
             self.rows.reverse()
         self.emit(QtCore.SIGNAL(_fromUtf8("layoutChanged()")))
@@ -95,8 +102,11 @@ class MainWindow(QtGui.QMainWindow):
         if fileName[-4:]=='.csv':
             self.model = TableModel()
             self.model.gui = self.ui
-            self.model.open(fileName,Settings.Separator(), Settings.Encoding(),Settings.Headers())
-            QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName(Settings.QEncoding()))
+            try:
+                self.model.open(fileName,Settings.Separator(), Settings.Encoding(),Settings.Headers())
+                QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName(Settings.QEncoding()))
+            except UnicodeDecodeError:
+                QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' записан не в кодировке '+Settings.Encoding(),QtGui.QMessageBox.Ok)
             self.ui.tableView.setModel(self.model)
             self.original = self.model
             self.ui.tableView.resizeColumnsToContents()

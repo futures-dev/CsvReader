@@ -21,6 +21,9 @@ class SettingsWindow(QtGui.QWidget):
     def __init__(self,ui):
         super(SettingsWindow,self).__init__()
         ui.setupUi(self)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
 
         QtCore.QObject.connect(ui.saveButton, QtCore.SIGNAL(_fromUtf8('clicked()')),self.save)
         QtCore.QObject.connect(ui.exitButton, QtCore.SIGNAL(_fromUtf8('clicked()')),self.close)
