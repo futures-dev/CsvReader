@@ -4,6 +4,7 @@ __author__ = 'Kolomiets'
 class Settings(object):
     separator=1
     encoding=0
+    headers=1
 
     @staticmethod
     def Encoding():
@@ -39,8 +40,17 @@ class Settings(object):
     @staticmethod
     def NewLine():
         if Settings.encoding==0:
-            return '\r\n'
+            return '\n'
         elif Settings.encoding==1:
-            return '\r\n'
+            return '\n'
         else:
             return '\r'
+
+    @staticmethod
+    def Headers():
+        if Settings.headers==0:
+            return False
+        elif Settings.headers==1:
+            return True
+        else:
+            return False

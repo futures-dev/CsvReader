@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.tableView, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 31))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.fileMenu = QtGui.QMenu(self.menubar)
         self.fileMenu.setObjectName(_fromUtf8("fileMenu"))

@@ -22,14 +22,17 @@ class CsvReader(object):
             self.__indent = max + 2
         return self.__indent
 
-    def open(self,fileName,separator=',',encoding='windows-1251'):
+    def open(self,fileName,separator=',',encoding='windows-1251',headers=True):
         fileName.replace('/','\\',0)
         with open(fileName,'rU') as f:
-            self.header = f.readline().decode(encoding).replace('\n','').replace('\r','').split(separator)
+            if headers:
+                self.header = f.readline().decode(encoding).replace('\n','').replace('\r','').split(separator)
             #Kostyl
             self.rows=[]
             for line in f:
                 self.rows.append(line.decode(encoding).replace('\n','').replace('\r','').split(separator))
+            if not headers:
+                self.header = [`i+1` for i in xrange(len(self.rows[0]))]
 
     def print_table(self):
         s = ''
@@ -68,18 +71,19 @@ class CsvReader(object):
             newRows.append(newRow)
         return CsvReader(newHeader,newRows)
 
-    def save_as(self,fileName,encoding,newline):
+    def save_as(self,fileName,encoding,newline,headers):
         lines = list()
-        line = ''
-        for cell in self.header:
-            line+=cell+';'
-        lines.append((line[:-1]+newline).encode(encoding))
+        if headers:
+            line = ''
+            for cell in self.header:
+                line+=cell+';'
+            lines.append((line[:-1]+newline).encode(encoding))
         for row in self.rows:
             line=''
             for cell in row:
                 line+=cell+';'
             lines.append((line[:-1]+newline).encode(encoding))
-        with open(fileName,'w') as f:
+        with open(fileName,'wU') as f:
             f.writelines(lines)
 
 
