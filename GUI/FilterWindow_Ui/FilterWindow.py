@@ -48,8 +48,8 @@ class FilterWindow(QtGui.QWidget):
             check=self.ui.checkBox[i]
             if (unicode(line.text())):
                 columns.append(combo.currentIndex())
-                predicates.append((lambda x:x==unicode(line.text())) if check.isChecked() else
-                                  lambda x:x.upper().find(unicode(line.text()).upper())>-1)
+                predicates.append((lambda x,line=line:x==unicode(line.text())) if check.isChecked() else
+                                  lambda x,line=line:x.upper().find(unicode(line.text()).upper())>-1)
         self.main.filter_model(columns,predicates)
         self.close()
 
