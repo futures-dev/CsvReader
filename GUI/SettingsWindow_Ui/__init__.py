@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_SettingsWindow(object):
     def setupUi(self, SettingsWindow):
         SettingsWindow.setObjectName(_fromUtf8("SettingsWindow"))
-        SettingsWindow.resize(400, 158)
+        SettingsWindow.resize(400, 203)
         self.separatorBox = QtGui.QComboBox(SettingsWindow)
         self.separatorBox.setEnabled(True)
         self.separatorBox.setGeometry(QtCore.QRect(200, 25, 181, 20))
@@ -40,10 +40,10 @@ class Ui_SettingsWindow(object):
         self.separatorLabel.setFont(font)
         self.separatorLabel.setObjectName(_fromUtf8("separatorLabel"))
         self.saveButton = QtGui.QPushButton(SettingsWindow)
-        self.saveButton.setGeometry(QtCore.QRect(180, 120, 75, 23))
+        self.saveButton.setGeometry(QtCore.QRect(180, 170, 75, 23))
         self.saveButton.setObjectName(_fromUtf8("saveButton"))
         self.exitButton = QtGui.QPushButton(SettingsWindow)
-        self.exitButton.setGeometry(QtCore.QRect(290, 120, 75, 23))
+        self.exitButton.setGeometry(QtCore.QRect(290, 170, 75, 23))
         self.exitButton.setObjectName(_fromUtf8("exitButton"))
         self.encodingLabel = QtGui.QLabel(SettingsWindow)
         self.encodingLabel.setGeometry(QtCore.QRect(10, 77, 181, 16))
@@ -58,6 +58,18 @@ class Ui_SettingsWindow(object):
         self.encodingBox.setObjectName(_fromUtf8("encodingBox"))
         self.encodingBox.addItem(_fromUtf8(""))
         self.encodingBox.addItem(_fromUtf8(""))
+        self.encodingBox.addItem(_fromUtf8(""))
+        self.headersLabel = QtGui.QLabel(SettingsWindow)
+        self.headersLabel.setGeometry(QtCore.QRect(10, 120, 181, 16))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("MS Shell Dlg 2"))
+        font.setPointSize(10)
+        self.headersLabel.setFont(font)
+        self.headersLabel.setObjectName(_fromUtf8("headersLabel"))
+        self.headersBox = QtGui.QCheckBox(SettingsWindow)
+        self.headersBox.setGeometry(QtCore.QRect(200, 120, 21, 17))
+        self.headersBox.setText(_fromUtf8(""))
+        self.headersBox.setObjectName(_fromUtf8("headersBox"))
 
         self.retranslateUi(SettingsWindow)
         QtCore.QMetaObject.connectSlotsByName(SettingsWindow)
@@ -72,6 +84,8 @@ class Ui_SettingsWindow(object):
         self.encodingLabel.setText(_translate("SettingsWindow", "Кодировка", None))
         self.encodingBox.setItemText(0, _translate("SettingsWindow", "win-1251", None))
         self.encodingBox.setItemText(1, _translate("SettingsWindow", "utf-8", None))
+        self.encodingBox.setItemText(2, _translate("SettingsWindow", "mac-cyrillic", None))
+        self.headersLabel.setText(_translate("SettingsWindow", "Заголовки колонок", None))
 
 
 if __name__ == "__main__":

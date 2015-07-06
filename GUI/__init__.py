@@ -1,8 +1,8 @@
 # coding=utf-8
 __author__ = 'Kolomiets'
 
-from GUI.MainWindow_Ui.MainWindow import *
-from GUI.AboutWindow_Ui.AboutWindow import *
+from PyQt4 import QtGui
+from GUI.MainWindow_Ui.MainWindow import main_window_show
 
 if __name__ == "__main__":
     import sys

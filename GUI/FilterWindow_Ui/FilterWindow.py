@@ -1,8 +1,8 @@
 # coding=utf-8
 __author__ = 'Kolomiets'
 
-from GUI.FilterWindow_Ui import *
-from Data import Settings
+from PyQt4 import QtGui,QtCore
+from GUI.FilterWindow_Ui import Ui_FilterWindow,_fromUtf8,_translate
 
 def filter_window_show(main):
     fw = FilterWindow(Ui_FilterWindow(),main)
@@ -18,19 +18,19 @@ class FilterWindow(QtGui.QWidget):
         self.ui.comboBox[self.form_i] = QtGui.QComboBox(self.ui.scrollAreaWidgetContents);
         self.ui.groupBox[self.form_i] = QtGui.QGroupBox();
         self.ui.horizontalLayout[self.form_i] = QtGui.QHBoxLayout(self.ui.groupBox[self.form_i]);
-        self.ui.horizontalLayout[self.form_i].setObjectName("horizontalLayout"+`self.form_i`);
+        self.ui.horizontalLayout[self.form_i].setObjectName(_fromUtf8("horizontalLayout"+`self.form_i`));
         self.ui.comboBox[self.form_i].setMinimumSize(250,0);
-        self.ui.comboBox[self.form_i].setObjectName("comboBox"+`self.form_i`);
+        self.ui.comboBox[self.form_i].setObjectName(_fromUtf8("comboBox"+`self.form_i`));
         i=0
         for column in self.main.original.header:
-            self.ui.comboBox[self.form_i].addItem("")
-            self.ui.comboBox[self.form_i].setItemText(i,QtGui.QApplication.translate("FilterWindow", column, None))
+            self.ui.comboBox[self.form_i].addItem(_fromUtf8(""))
+            self.ui.comboBox[self.form_i].setItemText(i,_translate("FilterWindow", column, None))
             i+=1
         self.ui.lineEdit[self.form_i] = QtGui.QLineEdit(self.ui.scrollAreaWidgetContents);
-        self.ui.lineEdit[self.form_i].setObjectName("lineEdit"+`self.form_i`);
+        self.ui.lineEdit[self.form_i].setObjectName(_fromUtf8("lineEdit"+`self.form_i`));
         self.ui.checkBox[self.form_i] = QtGui.QCheckBox(self.ui.scrollAreaWidgetContents);
-        self.ui.checkBox[self.form_i].setText("");
-        self.ui.checkBox[self.form_i].setObjectName("checkBox"+`self.form_i`);
+        self.ui.checkBox[self.form_i].setText(_fromUtf8(""));
+        self.ui.checkBox[self.form_i].setObjectName(_fromUtf8("checkBox"+`self.form_i`));
         self.ui.horizontalLayout[self.form_i].addWidget(self.ui.comboBox[self.form_i]);
         self.ui.horizontalLayout[self.form_i].addWidget(self.ui.lineEdit[self.form_i]);
         self.ui.horizontalLayout[self.form_i].addWidget(self.ui.checkBox[self.form_i]);
@@ -48,7 +48,8 @@ class FilterWindow(QtGui.QWidget):
             check=self.ui.checkBox[i]
             if (unicode(line.text())):
                 columns.append(combo.currentIndex())
-                predicates.append((lambda x:x==unicode(line.text())) if check.isChecked() else lambda x:x.upper().find(unicode(line.text()).upper())>-1)
+                predicates.append((lambda x:x==unicode(line.text())) if check.isChecked() else
+                                  lambda x:x.upper().find(unicode(line.text()).upper())>-1)
         self.main.filter_model(columns,predicates)
         self.close()
 

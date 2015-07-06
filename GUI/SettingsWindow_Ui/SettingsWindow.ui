@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>158</height>
+    <height>203</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>120</y>
+     <y>170</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -72,7 +72,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>120</y>
+     <y>170</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -122,6 +122,43 @@
      <string>utf-8</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>mac-cyrillic</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="headersLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS Shell Dlg 2</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Заголовки колонок</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="headersBox">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>120</y>
+     <width>21</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>

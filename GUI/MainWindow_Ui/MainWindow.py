@@ -1,10 +1,12 @@
 # coding=utf-8
 __author__ = 'Kolomiets'
 
-from GUI.MainWindow_Ui import *
-from GUI.AboutWindow_Ui.AboutWindow import *
-from GUI.SettingsWindow_Ui.SettingsWindow import *
-from GUI.FilterWindow_Ui.FilterWindow import *
+from PyQt4 import QtGui,QtCore
+from GUI.MainWindow_Ui import Ui_MainWindow,_fromUtf8,_translate
+from GUI.AboutWindow_Ui.AboutWindow import about_window_show
+from GUI.SettingsWindow_Ui.SettingsWindow import settings_window_show
+from GUI.FilterWindow_Ui.FilterWindow import filter_window_show
+from Data import Settings
 from CsvHandler import CsvReader
 
 def main_window_show():
@@ -19,19 +21,12 @@ class TableModel(QtCore.QAbstractTableModel,CsvReader.CsvReader):
         CsvReader.CsvReader.__init__(self,header,rows)
 
     def rowCount(self, QModelIndex_parent=None, *args, **kwargs):
-        #if (QModelIndex_parent!=None):
-        #    return 0
-        #else:
-            return len(self.rows)
+        return len(self.rows)
 
     def columnCount(self, QModelIndex_parent=None, *args, **kwargs):
-        #if (QModelIndex_parent!=None):
-        #    return 0
-        #else:
-            return len(self.header)
+        return len(self.header)
 
     def data(self, QModelIndex, int_role=None):
-        #God only knows what this is
         if not QModelIndex.isValid():
             return QtCore.QVariant()
         elif int_role!=QtCore.Qt.DisplayRole and int_role!=QtCore.Qt.EditRole:
@@ -43,13 +38,39 @@ class TableModel(QtCore.QAbstractTableModel,CsvReader.CsvReader):
             return QtCore.QVariant('')
 
     def setData(self, QModelIndex, QVariant, int_role=None):
-        pass
+        if int_role==QtCore.Qt.EditRole:
+            self.rows[QModelIndex.row()][QModelIndex.column()] = unicode(QVariant.toString())
+            return True
+        else:
+            return False
 
     def headerData(self, p_int, Qt_Orientation, int_role=None):
-        if Qt_Orientation==QtCore.Qt.Horizontal and int_role==QtCore.Qt.DisplayRole:
-            return QtCore.QVariant(self.header[p_int])
+        if int_role==QtCore.Qt.DisplayRole:
+            if Qt_Orientation==QtCore.Qt.Horizontal:
+                return QtCore.QVariant(self.header[p_int])
+            elif Qt_Orientation==QtCore.Qt.Vertical:
+                return QtCore.QVariant(p_int+1)
+            else:
+                return QtCore.QVariant()
         else:
             return QtCore.QVariant()
+
+    def setHeaderData(self, p_int, Qt_Orientation, QVariant, int_role=None):
+        if int_role==QtCore.Qt.EditRole and Qt_Orientation==QtCore.Qt.Horizontal:
+            self.header[p_int] = unicode(QVariant.toString())
+            return True
+        else:
+            return False
+
+    def sort(self,colN,order):
+        self.emit(QtCore.SIGNAL(_fromUtf8("layoutAboutToBeChanged()")))
+        self.rows.sort(key=lambda x:x[colN])
+        if order==QtCore.Qt.DescendingOrder:
+            self.rows.reverse()
+        self.emit(QtCore.SIGNAL(_fromUtf8("layoutChanged()")))
+
+    def flags(self,index):
+        return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
 class MainWindow(QtGui.QMainWindow):
     def about_window_show(self):
@@ -66,25 +87,27 @@ class MainWindow(QtGui.QMainWindow):
         self.filtered = TableModel(v[0],v[1])
         self.model = self.filtered
         self.ui.tableView.setModel(self.model)
+        self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.show()
 
     def open_file_dialog(self):
-        fileName = unicode(QtGui.QFileDialog.getOpenFileName(self,u'Открыть файл')).encode('utf-8')
+        fileName = unicode(QtGui.QFileDialog.getOpenFileName(self,u'Открыть файл'))
         if fileName[-4:]=='.csv':
             self.model = TableModel()
             self.model.gui = self.ui
-            self.model.open(fileName,',' if Settings.Separator==0 else ';', 'windows-1251' if Settings.Encoding==0 else 'utf-8')
-            QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName('windows-1251' if Settings.Encoding==0 else 'utf-8'))
+            self.model.open(fileName,Settings.Separator(), Settings.Encoding(),Settings.Headers())
+            QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName(Settings.QEncoding()))
             self.ui.tableView.setModel(self.model)
             self.original = self.model
+            self.ui.tableView.resizeColumnsToContents()
             self.ui.tableView.show()
         else:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
     def save_file_dialog(self):
-        fileName = unicode(QtGui.QFileDialog.getSaveFileName(self,u'Сохранить как')).encode('utf-8')
+        fileName = unicode(QtGui.QFileDialog.getSaveFileName(self,u'Сохранить как'))
         if fileName[-4:]=='.csv':
-            self.model.save_as(fileName,'windows-1251' if Settings.Encoding==0 else 'utf-8')
+            self.model.save_as(fileName,Settings.Encoding(),Settings.NewLine(),Settings.Headers())
         else:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
@@ -92,11 +115,11 @@ class MainWindow(QtGui.QMainWindow):
         super(MainWindow,self).__init__()
         ui.setupUi(self)
         self.windows = list()
-        QtCore.QObject.connect(ui.aboutButton, QtCore.SIGNAL('triggered()'),self.about_window_show)
-        QtCore.QObject.connect(ui.settingsButton, QtCore.SIGNAL('triggered()'),self.settings_window_show)
-        QtCore.QObject.connect(ui.filterButton, QtCore.SIGNAL('triggered()'),self.filter_window_show)
-        QtCore.QObject.connect(ui.openButton, QtCore.SIGNAL('triggered()'),self.open_file_dialog)
-        QtCore.QObject.connect(ui.saveAsButton, QtCore.SIGNAL('triggered()'),self.save_file_dialog)
+        QtCore.QObject.connect(ui.aboutButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.about_window_show)
+        QtCore.QObject.connect(ui.settingsButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.settings_window_show)
+        QtCore.QObject.connect(ui.filterButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.filter_window_show)
+        QtCore.QObject.connect(ui.openButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.open_file_dialog)
+        QtCore.QObject.connect(ui.saveAsButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.save_file_dialog)
 
         self.ui = ui
 

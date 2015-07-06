@@ -1,7 +1,8 @@
 # coding=utf-8
 __author__ = 'Kolomiets'
 
-from GUI.AboutWindow_Ui import *
+from PyQt4 import QtGui
+from GUI.AboutWindow_Ui import Ui_AboutWindow
 
 def about_window_show():
     aw = AboutWindow(Ui_AboutWindow())

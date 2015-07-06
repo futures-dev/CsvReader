@@ -1,7 +1,8 @@
 # coding=utf-8
 __author__ = 'Kolomiets'
 
-from GUI.SettingsWindow_Ui import *
+from PyQt4 import QtCore,QtGui
+from GUI.SettingsWindow_Ui import Ui_SettingsWindow,_fromUtf8,_translate
 from Data import Settings
 
 def settings_window_show():
@@ -11,8 +12,9 @@ def settings_window_show():
 
 class SettingsWindow(QtGui.QWidget):
     def save(self):
-        Settings.Separator = self.ui.separatorBox.currentIndex()
-        Settings.Encoding = self.ui.encodingBox.currentIndex()
+        Settings.separator = self.ui.separatorBox.currentIndex()
+        Settings.encoding = self.ui.encodingBox.currentIndex()
+        Settings.headers = self.ui.headersBox.isChecked()
         self.close()
 
 
@@ -20,9 +22,10 @@ class SettingsWindow(QtGui.QWidget):
         super(SettingsWindow,self).__init__()
         ui.setupUi(self)
 
-        QtCore.QObject.connect(ui.saveButton, QtCore.SIGNAL('clicked()'),self.save)
-        QtCore.QObject.connect(ui.exitButton, QtCore.SIGNAL('clicked()'),self.close)
-        ui.separatorBox.setCurrentIndex(Settings.Separator)
-        ui.encodingBox.setCurrentIndex(Settings.Encoding)
+        QtCore.QObject.connect(ui.saveButton, QtCore.SIGNAL(_fromUtf8('clicked()')),self.save)
+        QtCore.QObject.connect(ui.exitButton, QtCore.SIGNAL(_fromUtf8('clicked()')),self.close)
+        ui.separatorBox.setCurrentIndex(Settings.separator)
+        ui.encodingBox.setCurrentIndex(Settings.encoding)
+        ui.headersBox.setChecked(Settings.headers)
 
         self.ui = ui
