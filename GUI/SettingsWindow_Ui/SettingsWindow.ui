@@ -122,6 +122,11 @@
      <string>utf-8</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>mac-cyrillic</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

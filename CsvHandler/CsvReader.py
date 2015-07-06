@@ -24,12 +24,12 @@ class CsvReader(object):
 
     def open(self,fileName,separator=',',encoding='windows-1251'):
         fileName.replace('/','\\',0)
-        with open(fileName,'r') as f:
-            self.header = f.readline().decode(encoding).replace('\n','').split(separator)
+        with open(fileName,'rU') as f:
+            self.header = f.readline().decode(encoding).replace('\n','').replace('\r','').split(separator)
             #Kostyl
             self.rows=[]
             for line in f:
-                self.rows.append(line.decode(encoding).replace('\n','').split(separator))
+                self.rows.append(line.decode(encoding).replace('\n','').replace('\r','').split(separator))
 
     def print_table(self):
         s = ''
@@ -68,17 +68,17 @@ class CsvReader(object):
             newRows.append(newRow)
         return CsvReader(newHeader,newRows)
 
-    def save_as(self,fileName,encoding):
+    def save_as(self,fileName,encoding,newline):
         lines = list()
         line = ''
         for cell in self.header:
             line+=cell+';'
-        lines.append(line[:-1].encode(encoding))
+        lines.append((line[:-1]+newline).encode(encoding))
         for row in self.rows:
             line=''
             for cell in row:
                 line+=cell+';'
-            lines.append(line[:-1].encode(encoding))
+            lines.append((line[:-1]+newline).encode(encoding))
         with open(fileName,'w') as f:
             f.writelines(lines)
 

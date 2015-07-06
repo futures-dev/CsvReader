@@ -58,6 +58,7 @@ class Ui_SettingsWindow(object):
         self.encodingBox.setObjectName(_fromUtf8("encodingBox"))
         self.encodingBox.addItem(_fromUtf8(""))
         self.encodingBox.addItem(_fromUtf8(""))
+        self.encodingBox.addItem(_fromUtf8(""))
 
         self.retranslateUi(SettingsWindow)
         QtCore.QMetaObject.connectSlotsByName(SettingsWindow)
@@ -72,6 +73,7 @@ class Ui_SettingsWindow(object):
         self.encodingLabel.setText(_translate("SettingsWindow", "Кодировка", None))
         self.encodingBox.setItemText(0, _translate("SettingsWindow", "win-1251", None))
         self.encodingBox.setItemText(1, _translate("SettingsWindow", "utf-8", None))
+        self.encodingBox.setItemText(2, _translate("SettingsWindow", "mac-cyrillic", None))
 
 
 if __name__ == "__main__":

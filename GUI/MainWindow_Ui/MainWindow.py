@@ -46,10 +46,22 @@ class TableModel(QtCore.QAbstractTableModel,CsvReader.CsvReader):
         pass
 
     def headerData(self, p_int, Qt_Orientation, int_role=None):
-        if Qt_Orientation==QtCore.Qt.Horizontal and int_role==QtCore.Qt.DisplayRole:
-            return QtCore.QVariant(self.header[p_int])
+        if int_role==QtCore.Qt.DisplayRole:
+            if Qt_Orientation==QtCore.Qt.Horizontal:
+                return QtCore.QVariant(self.header[p_int])
+            elif Qt_Orientation==QtCore.Qt.Vertical:
+                return QtCore.QVariant(p_int+1)
+            else:
+                return QtCore.QVariant()
         else:
             return QtCore.QVariant()
+
+    def sort(self,colN,order):
+        self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
+        self.rows.sort(key=lambda x:x[colN])
+        if order==QtCore.Qt.DescendingOrder:
+            self.rows.reverse()
+        self.emit(QtCore.SIGNAL("layoutChanged()"))
 
 class MainWindow(QtGui.QMainWindow):
     def about_window_show(self):
@@ -66,6 +78,7 @@ class MainWindow(QtGui.QMainWindow):
         self.filtered = TableModel(v[0],v[1])
         self.model = self.filtered
         self.ui.tableView.setModel(self.model)
+        self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.show()
 
     def open_file_dialog(self):
@@ -73,10 +86,11 @@ class MainWindow(QtGui.QMainWindow):
         if fileName[-4:]=='.csv':
             self.model = TableModel()
             self.model.gui = self.ui
-            self.model.open(fileName,',' if Settings.Separator==0 else ';', 'windows-1251' if Settings.Encoding==0 else 'utf-8')
-            QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName('windows-1251' if Settings.Encoding==0 else 'utf-8'))
+            self.model.open(fileName,Settings.Separator(), Settings.Encoding())
+            QtCore.QTextCodec.setCodecForTr(QtCore.QTextCodec.codecForName(Settings.QEncoding()))
             self.ui.tableView.setModel(self.model)
             self.original = self.model
+            self.ui.tableView.resizeColumnsToContents()
             self.ui.tableView.show()
         else:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
@@ -84,7 +98,7 @@ class MainWindow(QtGui.QMainWindow):
     def save_file_dialog(self):
         fileName = unicode(QtGui.QFileDialog.getSaveFileName(self,u'Сохранить как')).encode('utf-8')
         if fileName[-4:]=='.csv':
-            self.model.save_as(fileName,'windows-1251' if Settings.Encoding==0 else 'utf-8')
+            self.model.save_as(fileName,Settings.Encoding(),Settings.NewLine())
         else:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 

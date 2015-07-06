@@ -2,7 +2,6 @@
 __author__ = 'Kolomiets'
 
 from GUI.FilterWindow_Ui import *
-from Data import Settings
 
 def filter_window_show(main):
     fw = FilterWindow(Ui_FilterWindow(),main)
