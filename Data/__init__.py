@@ -5,7 +5,7 @@ class Settings(object):
     separator=1
     encoding=1
     headers=1
-    rows=0
+    rows=1
 
     @staticmethod
     def Encoding():
@@ -59,8 +59,8 @@ class Settings(object):
     @staticmethod
     def Rows():
         if Settings.rows==0:
-            return False
-        elif Settings.rows==1:
             return True
-        else:
+        elif Settings.rows==1:
             return False
+        else:
+            return True

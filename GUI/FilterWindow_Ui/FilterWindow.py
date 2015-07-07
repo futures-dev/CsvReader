@@ -15,6 +15,7 @@ def filter_window_show(main):
     if (filter_window_show.fw==1):
         filter_window_show.fw = FilterWindow(Ui_FilterWindow(),main)
     filter_window_show.fw.show()
+    filter_window_show.fw.activateWindow()
     return filter_window_show.fw
 
 class FilterWindow(QtGui.QWidget):
@@ -80,6 +81,7 @@ class FilterWindow(QtGui.QWidget):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
+        self.setWindowFlags(self.windowFlags() ^ QtCore.Qt.WindowMaximizeButtonHint)
         ui.setupUi(self)
         ui.comboBox = {}
         ui.groupBox = {}
