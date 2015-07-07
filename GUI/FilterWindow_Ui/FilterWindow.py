@@ -23,28 +23,33 @@ class FilterWindow(QtGui.QWidget):
     form_saved = 0
 
     def add_form(self):
+        if (not self.form_i in self.ui.comboBox) or self.ui.comboBox[self.form_i].parentWidget()==None:
 
-        self.ui.comboBox[self.form_i] = QtGui.QComboBox(self.ui.scrollAreaWidgetContents);
-        self.ui.groupBox[self.form_i] = QtGui.QGroupBox();
-        self.ui.horizontalLayout[self.form_i] = QtGui.QHBoxLayout(self.ui.groupBox[self.form_i]);
-        self.ui.horizontalLayout[self.form_i].setObjectName(_fromUtf8("horizontalLayout"+`self.form_i`));
-        self.ui.comboBox[self.form_i].setMinimumSize(250,0);
-        self.ui.comboBox[self.form_i].setObjectName(_fromUtf8("comboBox"+`self.form_i`));
-        i=0
-        for column in self.main.original.header:
-            self.ui.comboBox[self.form_i].addItem(_fromUtf8(""))
-            self.ui.comboBox[self.form_i].setItemText(i,_translate("FilterWindow", column, None))
-            i+=1
-        self.ui.lineEdit[self.form_i] = QtGui.QLineEdit(self.ui.scrollAreaWidgetContents);
-        self.ui.lineEdit[self.form_i].setObjectName(_fromUtf8("lineEdit"+`self.form_i`));
-        self.ui.checkBox[self.form_i] = QtGui.QCheckBox(self.ui.scrollAreaWidgetContents);
-        self.ui.checkBox[self.form_i].setText(_fromUtf8(""));
-        self.ui.checkBox[self.form_i].setObjectName(_fromUtf8("checkBox"+`self.form_i`));
-        self.ui.horizontalLayout[self.form_i].addWidget(self.ui.comboBox[self.form_i]);
-        self.ui.horizontalLayout[self.form_i].addWidget(self.ui.lineEdit[self.form_i]);
-        self.ui.horizontalLayout[self.form_i].addWidget(self.ui.checkBox[self.form_i]);
-        self.ui.groupBox[self.form_i].setLayout(self.ui.horizontalLayout[self.form_i]);
-        self.ui.verticalLayout.addWidget(self.ui.groupBox[self.form_i])
+            self.ui.comboBox[self.form_i] = QtGui.QComboBox(self.ui.scrollAreaWidgetContents);
+            self.ui.groupBox[self.form_i] = QtGui.QGroupBox();
+            self.ui.horizontalLayout[self.form_i] = QtGui.QHBoxLayout(self.ui.groupBox[self.form_i]);
+            self.ui.horizontalLayout[self.form_i].setObjectName(_fromUtf8("horizontalLayout"+`self.form_i`));
+            self.ui.comboBox[self.form_i].setMinimumSize(250,0);
+            self.ui.comboBox[self.form_i].setObjectName(_fromUtf8("comboBox"+`self.form_i`));
+            i=0
+            for column in self.main.original.header:
+                self.ui.comboBox[self.form_i].addItem(_fromUtf8(""))
+                self.ui.comboBox[self.form_i].setItemText(i,_translate("FilterWindow", column, None))
+                i+=1
+            self.ui.lineEdit[self.form_i] = QtGui.QLineEdit(self.ui.scrollAreaWidgetContents);
+            self.ui.lineEdit[self.form_i].setObjectName(_fromUtf8("lineEdit"+`self.form_i`));
+            self.ui.checkBox[self.form_i] = QtGui.QCheckBox(self.ui.scrollAreaWidgetContents);
+            self.ui.checkBox[self.form_i].setText(_fromUtf8(""));
+            self.ui.checkBox[self.form_i].setObjectName(_fromUtf8("checkBox"+`self.form_i`));
+            self.ui.horizontalLayout[self.form_i].addWidget(self.ui.comboBox[self.form_i]);
+            self.ui.horizontalLayout[self.form_i].addWidget(self.ui.lineEdit[self.form_i]);
+            self.ui.horizontalLayout[self.form_i].addWidget(self.ui.checkBox[self.form_i]);
+            self.ui.groupBox[self.form_i].setLayout(self.ui.horizontalLayout[self.form_i]);
+            self.ui.verticalLayout.addWidget(self.ui.groupBox[self.form_i])
+
+        else:
+            self.ui.groupBox[self.form_i].setLayout(self.ui.horizontalLayout[self.form_i])
+            self.ui.verticalLayout.addWidget(self.ui.groupBox[self.form_i])
 
         self.form_i += 1
 
@@ -63,10 +68,12 @@ class FilterWindow(QtGui.QWidget):
         self.main.filter_model(columns,predicates)
         self.close()
 
-    def cancel(self):
-        for i in range(self.for_saved,self.form_i):
-            del self.ui.groupBox[i]
-        self.close()
+    def closeEvent(self, QCloseEvent):
+        for i in range(self.form_saved,self.form_i):
+            self.ui.verticalLayout.removeWidget(self.ui.groupBox[i])
+            self.ui.groupBox[i].setParent(None)
+        self.form_saved=self.form_i
+        QCloseEvent.accept()
 
     def __init__(self,ui,main):
         super(FilterWindow,self).__init__()

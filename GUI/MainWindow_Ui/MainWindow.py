@@ -87,10 +87,10 @@ class MainWindow(QtGui.QMainWindow):
         self.windows.append(settings_window_show())
 
     def filter_window_show(self):
-        try:
-            self.windows.append(filter_window_show(self))
-        except:
+        if self.original==None:
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Сначала откройте файл',QtGui.QMessageBox.Ok)
+        else:
+            self.windows.append(filter_window_show(self))
 
     def filter_model(self,columns,predicates):
         v = self.original.filter_rows(columns,predicates)
@@ -131,6 +131,8 @@ class MainWindow(QtGui.QMainWindow):
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
         self.windows = list()
+        self.model = None
+        self.original = None
         QtCore.QObject.connect(ui.aboutButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.about_window_show)
         QtCore.QObject.connect(ui.settingsButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.settings_window_show)
         QtCore.QObject.connect(ui.filterButton, QtCore.SIGNAL(_fromUtf8('triggered()')),self.filter_window_show)
