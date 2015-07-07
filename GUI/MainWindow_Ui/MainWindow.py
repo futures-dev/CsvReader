@@ -87,7 +87,10 @@ class MainWindow(QtGui.QMainWindow):
         self.windows.append(settings_window_show())
 
     def filter_window_show(self):
-        self.windows.append(filter_window_show(self))
+        try:
+            self.windows.append(filter_window_show(self))
+        except:
+            QtGui.QMessageBox.warning(self,u'Ошибка',u'Сначала откройте файл',QtGui.QMessageBox.Ok)
 
     def filter_model(self,columns,predicates):
         v = self.original.filter_rows(columns,predicates)
