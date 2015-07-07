@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>203</height>
+    <height>207</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
      <x>200</x>
      <y>25</y>
      <width>181</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <item>
@@ -42,13 +42,13 @@
      <x>10</x>
      <y>26</y>
      <width>181</width>
-     <height>16</height>
+     <height>18</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>MS Shell Dlg 2</family>
-     <pointsize>10</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -58,10 +58,10 @@
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>140</x>
      <y>170</y>
-     <width>75</width>
-     <height>23</height>
+     <width>101</width>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -71,10 +71,10 @@
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>274</x>
      <y>170</y>
-     <width>75</width>
-     <height>23</height>
+     <width>101</width>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
@@ -87,13 +87,13 @@
      <x>10</x>
      <y>77</y>
      <width>181</width>
-     <height>16</height>
+     <height>18</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>MS Shell Dlg 2</family>
-     <pointsize>10</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -109,7 +109,7 @@
      <x>200</x>
      <y>75</y>
      <width>181</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <item>
@@ -134,13 +134,13 @@
      <x>10</x>
      <y>120</y>
      <width>181</width>
-     <height>16</height>
+     <height>18</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>MS Shell Dlg 2</family>
-     <pointsize>10</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -151,9 +151,9 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>120</y>
-     <width>21</width>
-     <height>17</height>
+     <y>118</y>
+     <width>25</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="text">

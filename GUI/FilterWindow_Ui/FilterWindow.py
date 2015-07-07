@@ -12,6 +12,7 @@ def filter_window_show(main):
 class FilterWindow(QtGui.QWidget):
 
     form_i = 0
+    form_saved = 0
 
     def add_form(self):
 
@@ -40,6 +41,7 @@ class FilterWindow(QtGui.QWidget):
         self.form_i += 1
 
     def commit_filter(self):
+        self.form_saved = self.form_i
         columns = []
         predicates = []
         for i in xrange(self.form_i):
@@ -51,6 +53,11 @@ class FilterWindow(QtGui.QWidget):
                 predicates.append((lambda x,line=line:x==unicode(line.text())) if check.isChecked() else
                                   lambda x,line=line:x.upper().find(unicode(line.text()).upper())>-1)
         self.main.filter_model(columns,predicates)
+        self.close()
+
+    def cancel(self):
+        for i in range(self.for_saved,self.form_i):
+            del self.ui.groupBox[i]
         self.close()
 
     def __init__(self,ui,main):
