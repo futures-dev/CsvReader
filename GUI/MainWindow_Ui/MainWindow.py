@@ -118,6 +118,8 @@ class MainWindow(QtGui.QMainWindow):
             QtGui.QMessageBox.warning(self,u'Ошибка',u'Файл '+fileName+u' имеет неверное расширение',QtGui.QMessageBox.Ok)
 
     def save_file_dialog(self):
+        if self.model==None:
+            QtGui.QMessageBox.warning(self,u'Ошибка',u'Сначала откройте файл',QtGui.QMessageBox.Ok)
         fileName = unicode(QtGui.QFileDialog.getSaveFileName(self,u'Сохранить как'))
         if fileName[-4:]=='.csv':
             self.model.save_as(fileName,Settings.Encoding(),Settings.NewLine(),Settings.Headers())
